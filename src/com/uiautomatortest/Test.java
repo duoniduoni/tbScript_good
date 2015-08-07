@@ -121,22 +121,33 @@ public class Test extends UiAutomatorTestCase {
 			searchConditionActivity sa = new searchConditionActivity();
 			do {
 				if (!sa.isThisActivityRight())
+				{
+					Log.d(Tag, "1 searchConditionActivity isThisActivityRight fail !");
 					break;
-				
+				}
 				sa.search(SC);
 				
 				searchResultsActivity sra = new searchResultsActivity();
 				do{
 					if(!sra.isThisActivityRight())
+					{
+						Log.d(Tag, "2 searchResultsActivity isThisActivityRight fail !");
 						break;
+					}
 					
 					if(!sra.findAndEntryCommodity(matchs, 30))
+					{
+						Log.d(Tag, "3 searchResultsActivity findAndEntryCommodity fail !");
 						break;
+					}
 
 					commodityActivity ca = new commodityActivity();
 					do {
 						if (!ca.isThisActivityRight())
+						{
+							Log.d(Tag, "4 commodityActivity isThisActivityRight fail !");
 							break;
+						}
 						
 						ca.showCommodityDetialWithTimeout(30 * 1000);
 						
@@ -154,7 +165,7 @@ public class Test extends UiAutomatorTestCase {
 								ca2.exitActivity();
 							} else
 								Log.d(Tag,
-										"entryCommodityActivityRandomly fail !");
+										"5 entryCommodityActivityRandomly fail !");
 
 							sha.exitActivity();
 						}

@@ -54,20 +54,47 @@ public class searchResultsActivity implements IActivity {
 			int count = resultsView.getChildCount();
 			contents.clear();
 			
-			for(int i = 0; i < count; i++)
+			Log.d(Tag, "resultsView is " + resultsView.toString()  + " | count " + count);
+			
+			for(int i = 0; i <= count; i++)
 			{
+				Log.d(Tag, "current item index is  " + i);
+				
 				//遍历搜索结果 分析出来每一个ITEM
-				UiObject RelativeLayout = resultsView.getChild(new UiSelector().index(i).className("android.widget.LinearLayout").resourceId("com.taobao.taobao:layout/tbsearch_item_list_improve"));
+				UiObject lineLayout = resultsView.getChild(new UiSelector().index(i).className("android.widget.LinearLayout").resourceId("com.taobao.taobao:layout/tbsearch_item_spu"));
+				if(!lineLayout.exists())
+				{
+					Log.d(Tag, "\t lineLayout is not exist");
+					continue;
+				}
+				
+				UiObject RelativeLayout = lineLayout.getChild(new UiSelector().index(0).className("android.widget.RelativeLayout"));
 				if(!RelativeLayout.exists())
+				{
+					Log.d(Tag, "\t RelativeLayout is not exist");
 					continue;
+				}
 				
-				UiObject RelativeLayout2 = RelativeLayout.getChild(new UiSelector().index(1).className("android.widget.RelativeLayout").resourceId("com.taobao.taobao:id/auc_maininfo_ext"));
-				if(!RelativeLayout2.exists())
+				UiObject lineLayout2 = RelativeLayout.getChild(new UiSelector().index(0).className("android.widget.LinearLayout").resourceId("com.taobao.taobao:id/spu"));
+				if(!lineLayout2.exists())
+				{
+					Log.d(Tag, "\t lineLayout2 is not exist");
 					continue;
+				}
 				
-				UiObject item = RelativeLayout2.getChild(new UiSelector().className("android.widget.TextView").resourceId("com.taobao.taobao:id/title"));
+				UiObject lineLayout3 = lineLayout2.getChild(new UiSelector().index(1).className("android.widget.LinearLayout"));
+				if(!lineLayout3.exists())
+				{
+					Log.d(Tag, "\t lineLayout3 is not exist");
+					continue;
+				}
+				
+				UiObject item = lineLayout3.getChild(new UiSelector().index(0).className("android.widget.TextView").resourceId("com.taobao.taobao:id/spu_title"));
 				if(!item.exists())
+				{
+					Log.d(Tag, "\t item is not exist");
 					continue;
+				}
 				
 				contents.add(new searchItem(item, item.getText(), RelativeLayout.getBounds()));
 			}
