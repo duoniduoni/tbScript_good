@@ -81,6 +81,7 @@ public class searchResultsActivity implements IActivity {
 		
 		try {
 			int count = resultsView.getChildCount();
+			common.Log("***************************************************** resultView.ChildCount is " + count);
 			contents.clear();
 			
 			for(int i = 0; i < count; i++)
@@ -88,39 +89,63 @@ public class searchResultsActivity implements IActivity {
 				//遍历搜索结果 分析出来每一个ITEM
 				UiObject RelativeLayout = resultsView.getChild(new UiSelector().index(i).className("android.widget.LinearLayout").resourceId("com.taobao.taobao:layout/tbsearch_item_list_improve"));
 				if(!RelativeLayout.exists())
+				{
+					common.Log("RelativeLayout dose not exists !");
 					continue;
+				}
 				
 				UiObject RelativeLayout2 = RelativeLayout.getChild(new UiSelector().index(1).className("android.widget.RelativeLayout").resourceId("com.taobao.taobao:id/auc_maininfo_ext"));
 				if(!RelativeLayout2.exists())
+				{
+					common.Log("RelativeLayout2 dose not exists !");
 					continue;
+				}
 				
 				UiObject item = RelativeLayout2.getChild(new UiSelector().className("android.widget.TextView").resourceId("com.taobao.taobao:id/title"));
 				if(!item.exists())
+				{
+					common.Log("item dose not exists !");
 					continue;
+				}
 				
 				UiObject LinearLayout = RelativeLayout2.getChild(new UiSelector().index(1).resourceId("com.taobao.taobao:id/sales_area"));
 				if(!LinearLayout.exists())
+				{
+					common.Log("LinearLayout dose not exists !");
 					continue;
+				}
 				
-				UiObject address = LinearLayout.getChild(new UiSelector().resourceId("com.taobao.taobao:id/area").index(2));
+				UiObject address = LinearLayout.getChild(new UiSelector().resourceId("com.taobao.taobao:id/area"));
 				if(!address.exists())
+				{
+					common.Log("address dose not exists !");
 					continue;
+				}
 				
-				UiObject postfee = LinearLayout.getChild(new UiSelector().resourceId("com.taobao.taobao:id/postfee").index(1));
+				UiObject postfee = LinearLayout.getChild(new UiSelector().resourceId("com.taobao.taobao:id/postfee"));
 				if(!postfee.exists())
+				{
+					common.Log("postfee dose not exists !");
 					continue;
+				}
 				
 				UiObject LinearLayout2 = RelativeLayout2.getChild(new UiSelector().index(3).resourceId("com.taobao.taobao:id/price_area"));
 				if(!LinearLayout2.exists())
+				{
+					common.Log("LinearLayout2 dose not exists !");
 					continue;
+				}
 				
-				UiObject price = LinearLayout2.getChild(new UiSelector().resourceId("com.taobao.taobao:id/price").index(1));
+				UiObject price = LinearLayout2.getChild(new UiSelector().resourceId("com.taobao.taobao:id/price"));
 				if(!price.exists())
+				{
+					common.Log("price dose not exists !");
 					continue;
+				}
 				
 				//将float处理出来
 				float f_price = Float.parseFloat(price.getText());
-				float f_postfee = Float.parseFloat(postfee.getText().split("￥")[1]);
+				float f_postfee = postfee.getText().equals("包邮") ? (float)0.0 : Float.parseFloat(postfee.getText().split("￥")[1]);
 				
 				contents.add(new searchItem(item, item.getText(), RelativeLayout.getBounds(), address.getText(), f_price, f_postfee));
 			}
@@ -202,6 +227,7 @@ public class searchResultsActivity implements IActivity {
 		
 		for (int t = 0; t < scrollTimes; t++) {
 			analysisResultItems();
+			common.Log("analyse item count " + contents.size());
 			for (int i = 0; i < contents.size(); i++) {
 				common.Log("the " + i + "th contehnt is : \n\t"
 						+ contents.get(i).title + "  \n\t "
@@ -211,7 +237,8 @@ public class searchResultsActivity implements IActivity {
 						+ "postfee=" + contents.get(i).postfee);
 				
 				//首先匹配地址、价格、运费（如果有的话）
-				if(!address.isEmpty())
+				
+				if(!address.isEmpty() && address.length() > 0)
 				{
 					if(contents.get(i).address.equals(address))
 					{
