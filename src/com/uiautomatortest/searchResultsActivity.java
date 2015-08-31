@@ -136,15 +136,21 @@ public class searchResultsActivity implements IActivity {
 					continue;
 				}
 				
+				String strPrice;
 				UiObject price = LinearLayout2.getChild(new UiSelector().resourceId("com.taobao.taobao:id/price"));
 				if(!price.exists())
 				{
 					common.Log("price dose not exists !");
 					continue;
 				}
+				strPrice = price.getText();
+				
+				UiObject price2 = LinearLayout2.getChild(new UiSelector().resourceId("com.taobao.taobao:id/price_suffix"));
+				if(price2.exists())
+					strPrice += price2.getText();
 				
 				//将float处理出来
-				float f_price = Float.parseFloat(price.getText());
+				float f_price = Float.parseFloat(strPrice);
 				float f_postfee = postfee.getText().equals("包邮") ? (float)0.0 : Float.parseFloat(postfee.getText().split("￥")[1]);
 				
 				contents.add(new searchItem(item, item.getText(), RelativeLayout.getBounds(), address.getText(), f_price, f_postfee));
