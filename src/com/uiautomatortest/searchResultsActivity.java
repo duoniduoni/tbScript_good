@@ -14,6 +14,7 @@ public class searchResultsActivity implements IActivity {
 	public String Tag = "searchResultsActivity";
 	public UiObject resultsView = new UiObject(new UiSelector().className("android.support.v7.widget.RecyclerView").resourceId("com.taobao.taobao:id/search_listview"));
 	public UiObject btn_style = new UiObject(new UiSelector().className("android.widget.RelativeLayout").resourceId("com.taobao.taobao:id/btn_style"));
+	public UiObject headertips = new UiObject(new UiSelector().className("android.widget.TextView").resourceId("com.taobao.taobao:id/search_headertips_text"));
 	
 	class searchItem
 	{
@@ -47,6 +48,17 @@ public class searchResultsActivity implements IActivity {
 	@Override
 	public boolean isThisActivityRight() {
 		// TODO Auto-generated method stub
+		try {
+			if (headertips.waitForExists(6 * 1000))
+			{
+				headertips.click();
+				common.Log("****** jump the headertips *******");
+			}
+		} catch (UiObjectNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		boolean ret = resultsView.waitForExists(timeout);
 		common.Log("isThisActivityRight :: resultsView waitForExists : " + ret);
 		
