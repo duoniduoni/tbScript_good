@@ -511,7 +511,17 @@ public class Test extends UiAutomatorTestCase {
 		this.getAutomationSupport().sendStatus(0, br);
 	}
 	
-	
+	public void closeUpdateActivity()
+	{
+		updateActivity ua = new updateActivity();
+
+		while (getUiDevice().getCurrentPackageName().contains(
+				"com.taobao.taobao")) {
+			if (ua.isThisActivityRight()) {
+				ua.exitActivity();
+			}
+		}
+	}
 	
 	public void testDemo2()
 	{
