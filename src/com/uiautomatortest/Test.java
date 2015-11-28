@@ -70,6 +70,8 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void entryMainActivity()
 	{
+		closeUpdateActivity();
+		
 		String strResult = "";
 		
 		do {
@@ -96,6 +98,8 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void entrySearchConditionActivity()
 	{
+		closeUpdateActivity();
+		
 		String strResult = "";
 		
 		Bundle params = this.getParams();
@@ -160,6 +164,8 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void entrySearchResultActivity()
 	{
+		closeUpdateActivity();
+		
 		String strResult = "";
 
 		Bundle params = this.getParams();
@@ -264,6 +270,8 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void entryCommodityActivity()
 	{
+		closeUpdateActivity();
+		
 		String strResult = "";
 		
 		Bundle params = this.getParams();
@@ -300,6 +308,8 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void entryEvaluationActivity()
 	{
+		closeUpdateActivity();
+		
 		String strResult = "";
 
 		Bundle params = this.getParams();
@@ -349,6 +359,8 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void entryCommodityActivityRandomly()
 	{
+		closeUpdateActivity();
+		
 		String strResult = "";
 
 		commodityActivity ca = new commodityActivity();
@@ -383,6 +395,8 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void exitCommodityActivity()
 	{
+		closeUpdateActivity();
+		
 		String strResult = "";
 		
 		commodityActivity ca = new commodityActivity();
@@ -409,6 +423,8 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void exitShopActivity()
 	{
+		closeUpdateActivity();
+		
 		String strResult = "";
 
 		do {
@@ -435,6 +451,8 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void exitSearchResultActivity()
 	{
+		closeUpdateActivity();
+		
 		String strResult = "";
 		
 		searchResultsActivity sra = new searchResultsActivity();
@@ -461,6 +479,8 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void exitSearchConditionActivity()
 	{
+		closeUpdateActivity();
+		
 		String strResult = "";
 				
 		searchConditionActivity sa = new searchConditionActivity();
@@ -487,6 +507,8 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void exitMainActivity()
 	{
+		closeUpdateActivity();
+		
 		String strResult = "";
 		
 		do {
@@ -513,13 +535,35 @@ public class Test extends UiAutomatorTestCase {
 	
 	public void closeUpdateActivity()
 	{
-		updateActivity ua = new updateActivity();
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				updateActivity ua = new updateActivity();
 
-		while (getUiDevice().getCurrentPackageName().contains(
-				"com.taobao.taobao")) {
-			if (ua.isThisActivityRight()) {
-				ua.exitActivity();
+				while (getUiDevice().getCurrentPackageName().contains(
+						"com.taobao.taobao")) {
+					
+					common.Log("closeUpdateActivity running!");
+					
+					if (ua.isThisActivityRight()) {
+						ua.exitActivity();
+					}
+				}
+				
+				common.Log("closeUpdateActivity out!");
 			}
+		}).start();		
+	}
+	
+	public void test()
+	{
+		closeUpdateActivity();
+		
+		while (getUiDevice().getCurrentPackageName().contains(
+				"com.taobao.taobao"))
+		{
+			common.sleep(1 * 1000);
 		}
 	}
 }
