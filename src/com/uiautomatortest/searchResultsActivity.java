@@ -215,7 +215,7 @@ public class searchResultsActivity implements IActivity {
 		return true;
 	}
 	
-	public boolean findAndEntryCommodity(String[] matchs, String address, float price, float postfee, int scrollTimes)
+	public boolean findAndEntryCommodity(String[] matchs, String address, float price, float postfee, boolean go_on, int scrollTimes)
 	{
 		boolean isFind = false;
 		UiObject target = null;
@@ -313,6 +313,9 @@ public class searchResultsActivity implements IActivity {
 		
 		if(target == null)
 			return false;
+		
+		if(go_on == false)
+			return true;
 		
 		try {
 			return target.clickAndWaitForNewWindow();

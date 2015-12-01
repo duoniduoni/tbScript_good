@@ -186,7 +186,7 @@ public class Test extends UiAutomatorTestCase {
 		}
 		
 		/*
-		 *  分割参数串 : address、price、postfee和match
+		 *  分割参数串 : address、price、postfee、match和go_on
 		 */
 		String[] source_splite = args.split("#");
 		int source_count = source_splite.length;
@@ -194,8 +194,10 @@ public class Test extends UiAutomatorTestCase {
 		String mark_address = "address=";
 		String mark_price = "price=";
 		String mark_postfee = "postfee=";
+		String mark_go_on = "go_on=";
 		
 		String address = "";
+		String go_on = "true";
 		float price = -1, postfee = -1;
 		
 		for(String tmp:source_splite)
@@ -217,6 +219,11 @@ public class Test extends UiAutomatorTestCase {
 				String str_postfee = tmp.substring(mark_postfee.length());
 				postfee = Float.parseFloat(str_postfee);
 			}
+			else if(tmp.startsWith(mark_go_on))
+			{
+				source_count -= 1;
+				go_on = tmp.substring(mark_go_on.length());
+			}
 		}
 		
 		String[] matchs = new String[source_count];
@@ -226,7 +233,8 @@ public class Test extends UiAutomatorTestCase {
 			if(
 					!tmp.startsWith(mark_address) &&
 					!tmp.startsWith(mark_price) &&
-					!tmp.startsWith(mark_postfee)
+					!tmp.startsWith(mark_postfee) &&
+					!tmp.startsWith(mark_go_on)
 					)
 					matchs[index++] = tmp;
 		}
@@ -238,6 +246,7 @@ public class Test extends UiAutomatorTestCase {
 		common.Log( "address : " + address);
 		common.Log( "price : " + price);
 		common.Log( "postfee : " + postfee);
+		common.Log("go_on : " + go_on);
 		
 		searchResultsActivity sra = new searchResultsActivity();
 		do {
@@ -254,7 +263,7 @@ public class Test extends UiAutomatorTestCase {
 				break;
 			}
 
-			if (!sra.findAndEntryCommodity(matchs, address, price, postfee, 30))
+			if (!sra.findAndEntryCommodity(matchs, address, price, postfee, go_on.equals("TRUE")||go_on.equals("true"), 30))
 			{
 				strResult = "findAndEntryCommodity fail";
 				break;
