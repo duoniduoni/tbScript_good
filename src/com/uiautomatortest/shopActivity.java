@@ -55,7 +55,9 @@ public class shopActivity implements IActivity {
 			UiObject item = null;
 			for (i = 0; i < allList.getChildCount(); i++) {
 				item = allList.getChild(new UiSelector().index(i));
-				if (item.exists()) {
+				if (item.exists() &&
+						item.getChild(new UiSelector().index(0).resourceId("com.taobao.taobao:id/auction")).exists()
+						) {
 					break;
 				}
 			}

@@ -553,7 +553,7 @@ public class Test extends UiAutomatorTestCase {
 				while (getUiDevice().getCurrentPackageName().contains(
 						"com.taobao.taobao")) {
 					
-					common.Log("closeUpdateActivity running!");
+					//common.Log("closeUpdateActivity running!");
 					
 					if (ua.isThisActivityRight()) {
 						ua.exitActivity();
