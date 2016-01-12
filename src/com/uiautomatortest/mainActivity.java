@@ -44,10 +44,10 @@ public class mainActivity implements IActivity {
 	public boolean entrySearchActivity()
 	{
 		try {
-			boolean ret = searchEdit.clickAndWaitForNewWindow();
-			common.Log("entrySearchActivity::searchEdit clickAndWaitForNewWindow " + ret);
+			searchEdit.click();
+			common.sleep(500);
 			
-			return ret; 
+			return true; 
 		} catch (UiObjectNotFoundException e) {
 			// TODO Auto-generated catch block
 			common.Log(e.toString());
